@@ -1,44 +1,44 @@
-#include<stdio.h>
-#include<stdlib.h>
-struct fcfs
-{
-int pid;
-int btime;
-int wtime;
-int ttime;
+#include <stdio.h>
+int waitingtime(int proc[], int n,
+int burst_time[], int wait_time[]) {
+   wait_time[0] = 0;
+   for (int i = 1; i < n ; i++ )
+   wait_time[i] = burst_time[i-1] + wait_time[i-1] ;
+   return 0;
 }
-p[10];
-int main()
-{
-int i,n;
-int totwtime=0,totttime=0;
-printf("\n fcfs scheduling...\n");
-printf("enter the no of process");
-scanf("%d",&n);
-for(i=0;i<n;i++)
-{
-p[i].pid=1;
-printf("\n burst time of the process");
-scanf("%d",&p[i].btime);
+int turnaroundtime( int proc[], int n,
+int burst_time[], int wait_time[], int tat[]) {
+   int i;
+   for(i=0;i<n;i++)
+   tat[i] = burst_time[i] + wait_time[i];
+   return 0;
 }
-p[0].wtime=0;
-p[0].ttime=p[0].btime;
-totttime+=p[i].ttime;
-for(i=0;i<n;i++)
-{
-p[i].wtime=p[i-1].wtime+p[i-1].btime;
-p[i].ttime=p[i].wtime+p[i].btime;
-totttime+=p[i].ttime;
-totwtime+=p[i].wtime;
+int avgtime( int proc[], int n, int burst_time[]) {
+   int wait_time[n], tat[n], total_wt = 0, total_tat = 0;
+   int i;
+   waitingtime(proc, n, burst_time, wait_time);
+   turnaroundtime(proc, n, burst_time, wait_time, tat);
+   printf("Processes  Burst   Waiting  Turn around \n");
+   for(i=0; i<n; i++){
+      total_wt = total_wt + wait_time[i];
+      total_tat = total_tat + tat[i];
+      printf(" %d\t  %d\t\t %d\t %d\n", i+1, burst_time[i], wait_time[i], tat[i]);
+   }
+   printf("Average waiting time = %f\n", (float)total_wt / (float)n);
+   printf("Average turn around time = %f", (float)total_tat / (float)n);
+   return 0;
 }
-for(i=0;i<n;i++)
-{{
-printf("\n waiting time for process");
-printf("\n turn around time for process");
-printf("\n");
-}}
-printf("\n total waiting time :%d", totwtime );
-printf("\n average waiting time :%f",(float)totwtime/n);
-printf("\n total turn around time :%d",totttime);
-printf("\n average turn around time: :%f",(float)totttime/n);
+
+int main() {
+   int proc[10];
+   int n;
+   int burst_time[10];
+   printf("Enter the number of processes : ");
+   scanf("%d",&n);
+   for(int i=0;i<n;i++){
+		printf("Enter the processes_id and burst time of process %d: ",i+1);
+		scanf("%d %d",&proc[i],&burst_time[i]);
+   }
+   avgtime(proc, n, burst_time);
+   return 0;
 }
