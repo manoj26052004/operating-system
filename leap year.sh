@@ -1,11 +1,10 @@
 #!/bin/bash
 
-echo "leap year"
-echo "Enter the Number" 
-read n
-if(let  n%4==0)
-then 
-echo "$n is leap year" 
-else 
-echo "$n is not a leap year"
- fi
+echo -n "Enter a year:"
+read year_checker
+if [ `expr $year_checker % 4` -eq 0 ]
+then
+	echo "$year_checker is a leap year"
+else
+	echo "$year_checker is not a leap year"
+fi
